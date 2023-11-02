@@ -4,5 +4,5 @@
 **Please view `COMP3512 Assignment 2.pdf` for instructions**
 
 
-Github url: https://vannex2121.github.io/  
+Github url: https://vannex2121.github.io/Comp2512Assign2/   
   
