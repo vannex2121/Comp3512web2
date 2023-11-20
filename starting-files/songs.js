@@ -30,15 +30,15 @@ function findArtistName(artistId) {
 }
 // Function to find genre name by genre ID
 function findGenreName(genreId) {
-   return findNameById(genreId, genres);
+return findNameById(genreId, genres);
 }
 // Function to populate the song list
 function populateSongList() {
 const songListBody = document.getElementById("songTableBody");
-    songListBody.innerHTML = "";
+songListBody.innerHTML = "";
 
 // Sort the songs array alphabetically by title
-    songs.sort((a, b) => a.title.localeCompare(b.title, undefined, { sensitivity: 'base' }));
+songs.sort((a, b) => a.title.localeCompare(b.title, undefined, { sensitivity: 'base' }));
 
 // Populate the sorted song list using a for loop
     for (let i = 0; i < songs.length; i++) {
