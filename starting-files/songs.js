@@ -49,23 +49,24 @@ function findArtistName(artistId) {
 
 // Function to find genre name by genre ID
 function findGenreName(genreId) {
-    return findNameById(genreId, genres);
+   return findNameById(genreId, genres);
 }
+// Function to populate the song list
+function populateSongList() {
+    const songListBody = document.getElementById("songTableBody");
+    songListBody.innerHTML = "";
 
-// Function to sort the table based on the selected column
-function sortTable(columnIndex) {
-    const tbody = document.getElementById("songTableBody");
-    const rows = Array.from(tbody.rows);
+    // Sort the songs array alphabetically by title
+    songs.sort((a, b) => a.title.localeCompare(b.title, undefined, { sensitivity: 'base' }));
 
-    rows.sort((a, b) => {
-        const cellA = a.cells[columnIndex].textContent;
-        const cellB = b.cells[columnIndex].textContent;
-        return cellA.localeCompare(cellB, undefined, { numeric: true, sensitivity: 'base' });
+    songs.forEach(song => {
+        const row = songListBody.insertRow();
+        row.insertCell(0).innerText = song.title;
+        row.insertCell(1).innerText = findArtistName(song.artist.id);
+        row.insertCell(2).innerText = song.year;
+        row.insertCell(3).innerText = findGenreName(song.genre.id);
+        row.insertCell(4).innerText = song.details.popularity;
     });
-
-    // Clear the existing tbody and append the sorted rows
-    tbody.innerHTML = "";
-    rows.forEach(row => tbody.appendChild(row));
 }
 
 // Initial population of the song list
