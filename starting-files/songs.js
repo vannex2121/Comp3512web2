@@ -46,7 +46,6 @@ function findNameById(id, dataArray) {
 function findArtistName(artistId) {
     return findNameById(artistId, artists);
 }
-
 // Function to find genre name by genre ID
 function findGenreName(genreId) {
    return findNameById(genreId, genres);
@@ -59,14 +58,20 @@ function populateSongList() {
     // Sort the songs array alphabetically by title
     songs.sort((a, b) => a.title.localeCompare(b.title, undefined, { sensitivity: 'base' }));
 
-    songs.forEach(song => {
+    // Populate the sorted song list using a for loop
+    for (let i = 0; i < songs.length; i++) {
+        const song = songs[i];
         const row = songListBody.insertRow();
         row.insertCell(0).innerText = song.title;
         row.insertCell(1).innerText = findArtistName(song.artist.id);
         row.insertCell(2).innerText = song.year;
         row.insertCell(3).innerText = findGenreName(song.genre.id);
         row.insertCell(4).innerText = song.details.popularity;
-    });
+
+        // Set data attributes for artist and genre IDs
+        row.setAttribute("data-artist-id", song.artist.id);
+        row.setAttribute("data-genre-id", song.genre.id);
+    }
 }
 
 // Initial population of the song list
