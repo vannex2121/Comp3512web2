@@ -16,11 +16,16 @@
     </ul>
 
     <h2>Search/Browse Songs</h2>
-    <label for="artistSelect">Select Artist:</label>
-    <select id="artistSelect"></select>
-
-    <label for="genreSelect">Select Genre:</label>
-    <select id="genreSelect"></select>
+    <form>
+        <input type="radio" for="title">Title:</label>
+        <input type="text" id="title" name="title">
+        <input type="radio" label for="artistSelect">Select Artist:</label>
+        <select id="artistSelect"></select>
+        <input type="radio" label for="genreSelect">Select Genre:</label>
+        <select id="genreSelect"></select>
+        <button type="button" onclick="filterSongs()">Filter</button>
+        <button type="button" onclick="clearFilters()">Clear</button>
+    </form>
 
     <h3>Song List</h3>
     <table id="songTable">
