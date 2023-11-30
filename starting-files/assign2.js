@@ -10,7 +10,7 @@ const api = 'https://www.randyconnolly.com/funwebdev/3rd/api/music/songs-nested.
    Some possibilities: if using Visual Code, use Live Server extension; if Brackets,
    use built-in Live Preview.
 */
-async function getApiData(api) {
+async function getApiData(api) { 
    try {
      const response = await fetch(api);
      const data = await response.json();
