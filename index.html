@@ -6,44 +6,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comp 3512 Assignment 2</title>
     <link rel="stylesheet" href="styles.css">
+    <script type="module" src="starting-files/songs.js"></script>
+    <script src="./starting-files/artists.json"></script>
+    <script src="./starting-files/genres.json"></script>
 </head>
 <body>
+ <header>   
+    <div class="header">                         
     <h1>Comp 3512 Assignment 2</h1>
+    </div>
     <h2>Group Members:</h2>
     <ul>
         <li>Juveluzel Lopena</li>
-      
-    </ul>
-
+</ul>
+</header>
     <h2>Search/Browse Songs</h2>
-    <form>
-        <input type="radio" for="title">Title:</label>
-        <input type="text" id="title" name="title">
-        <input type="radio" label for="artistSelect">Select Artist:</label>
-        <select id="artistSelect"></select>
-        <input type="radio" label for="genreSelect">Select Genre:</label>
-        <select id="genreSelect"></select>
-        <button type="button" onclick="filterSongs()">Filter</button>
-        <button type="button" onclick="clearFilters()">Clear</button>
+    <form id="filterForm">
+    <input type="radio" id="titleRadio" name="searchCategory" checked>
+    <label for="titleRadio">Title:</label>
+    <input type="text" id="titleInput" placeholder="Enter Title">
+    <input type="radio" id="artistRadio" name="searchCategory">
+    <label for="artistRadio">Select Artist</label>
+    <select id="artistSelect"></select>
+    <input type="radio" id="genreRadio" name="searchCategory">
+    <label for="genreRadio">Select Genre</label>
+    <select id="genreSelect"></select>
+        
+    <button type="button" id="filterButton">Filter</button>
+    <button type="button" id="clearButton">Clear</button>
     </form>
-
-    <h3>Song List</h3>
+   <h3>Song List</h3>
     <table id="songTable">
         <thead>
             <tr>
-                <th>Title</th>
-                <th>Artist</th>
-                <th>Year</th>
-                <th>Genre</th>
-                <th>Popularity</th>
+                <th id="titleHeader" data-sortby="title">Title</th>
+                <th id="artistHeader" data-sortby="artist">Artist</th>
+                <th id="yearHeader" data-sortby="year">Year</th>
+                <th id="genreHeader" data-sortby="genre">Genre</th>
+                <th id="popularityHeader" data-sortby="popularity">Popularity</th>
             </tr>
         </thead>
         <tbody id="songTableBody"></tbody>
     </table>
-    <script src="./starting-files/sample-songs.json"></script>
-    <script src="./starting-files/artists.json"></script>
-    <script src="./starting-files/genres.json"></script>
-    <script src="./starting-files/songs.js"></script>
-   
 </body>
 </html>
