@@ -9,6 +9,8 @@
     <script type="module" src="starting-files/songs.js"></script>
     <script src="./starting-files/artists.json"></script>
     <script src="./starting-files/genres.json"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 <body>
  <header>   
@@ -44,9 +46,17 @@
                 <th id="yearHeader" data-sortby="year">Year</th>
                 <th id="genreHeader" data-sortby="genre">Genre</th>
                 <th id="popularityHeader" data-sortby="popularity">Popularity</th>
+                <th id="add">Add to Playlist</th>
             </tr>
         </thead>
         <tbody id="songTableBody"></tbody>
     </table>
+   
+    <div id="singleSongView" style="display: none;">
+        <h2>Single Song View</h2>
+        <!-- Add other song details here -->
+        <canvas id="radarChartCanvas"></canvas>
+        <button id="closeViewButton">Close View</button>
+    </div>
 </body>
 </html>
