@@ -98,10 +98,94 @@ function updateSortIndicator(field, isAscending) {
     // Add the appropriate class for the sorting order
     clickedHeader.classList.add(isAscending ? "asc" : "desc");
 }
-// Function to populate the song list
+//Single View Page Function 
+function showSingleSongView(song) {
+    // Hide the song table
+    const songTable = document.getElementById('songTable');
+    songTable.style.display = 'none'; 
+    // Display the Single Song View
+    const singleSongView = document.getElementById('singleSongView');
+    singleSongView.style.display = 'block';
+       // Convert duration to minutes and seconds
+       const duration = song.details.duration;
+       const minutes = Math.floor(duration / 60);
+       const seconds = duration % 60;
+       const durationString = `${minutes}:${seconds}`;
+   
+       const analyticsDetails = song.analytics;
+   
+       const songDetails = [
+         { x: 'Danceability', value: analyticsDetails.danceability },
+           { x: 'Energy', value: analyticsDetails.energy },
+          { x: 'Speechiness', value: analyticsDetails.speechiness },
+          { x: 'Acousticness', value: analyticsDetails.acousticness },
+          { x: 'Liveness', value: analyticsDetails.liveness },
+          { x: 'Valence', value: analyticsDetails.valence }
+      ];
+    // Populate single song view details
+       const singleSongViewContent = `
+           <h2>Single Song View</h2>
+           <div class="song-details">
+               <h3>Song Information</h3>
+               <p><strong>Title:</strong> ${song.title}</p>
+               <p><strong>Artist:</strong> ${findArtistName(song.artist.id)}</p>
+               <p><strong>Genre:</strong> ${findGenreName(song.genre.id)}</p>
+               <p><strong>Year:</strong> ${song.year}</p>
+               <p><strong>Duration:</strong> ${durationString} minutes</p>
+         <h3>Analysis data</h4>
+         <h5 id="bpm">bpm: <b>${song.details.bpm}</b></h5>
+         <h5 id="songEnergy">Energy: ${song.analytics.energy}</h5>
+         <h5 id="songLoudness">Loudness: ${song.details.loudness}</h5>
+         <h5 id="songDanceability">Danceability: ${song.analytics.danceability}</h5>
+         <h5 id="songLiveness">Liveness: ${song.analytics.liveness}</h5>
+         <h5 id="songValence">Valence: ${song.analytics.valence}</h5>
+         <h5 id="songAcousticness">Acousticness: ${song.analytics.acousticness}</h5>
+         <h5 id="songSpeechiness">Speechiness: ${song.analytics.speechiness}</h5>
+         <h5 id="songPopularity">Popularity: ${song.details.popularity}</h5>
+           </div>
+           <div class="radar-chart">
+               <h3>Radar Chart</h3>
+               <canvas id="radarChartCanvas"></canvas>
+           </div>
+           <button id="closeViewButton">Close View</button>
+       `;
+   // Update the content of the single song view
+   singleSongView.innerHTML = singleSongViewContent;
+   // Create radar chart using the canvas
+   const radarChartCanvas = document.getElementById('radarChartCanvas');
+   const radarChart = new Chart(radarChartCanvas, {
+       type: 'radar',
+       data: {
+           labels: ['Danceability', 'Energy', 'Valence', 'Speechiness', 'Loudness', 'Liveness'],
+           datasets: [{
+               label: 'Song Metrics',
+               data: [song.analytics.danceability, song.analytics.energy, song.analytics.valence , song.analytics.speechiness, song.details.loudness, song.analytics.liveness],
+               backgroundColor: 'rgba(0, 0, 225, 0.3)',
+               borderColor: 'rgba(60, 60, 60, 60)',
+               borderWidth: 2
+           }]
+       },
+       options: {
+           scale: {
+               ticks: { beginAtZero:true},
+               pointLabels: { fontSize: 20 } 
+           }
+       }
+   });
+    // Add an event listener to the "Close View" button
+    const closeViewButton = document.getElementById('closeViewButton');
+    closeViewButton.addEventListener('click', () => {
+        // Show the song table again
+        songTable.style.display = 'block';
+        // Hide the Single Song View
+        singleSongView.style.display = 'none';
+    });
+   // Return the radarChart object
+    return radarChart;
+   }
+//Populate the song list on the table
 function populateSongList() {
-    songListBody.innerHTML = "";
-    // Populate the sorted song list using a for loop
+    songListBody.innerHTML = ""; // Clear the existing content
     for (let i = 0; i < songs.length; i++) {
         const song = songs[i];
         const row = songListBody.insertRow();
@@ -110,10 +194,28 @@ function populateSongList() {
         row.insertCell(2).innerText = song.year;
         row.insertCell(3).innerText = findGenreName(song.genre.id);
         row.insertCell(4).innerText = song.details.popularity;
-        // Set data attributes for artist and genre IDs
-        row.setAttribute("data-artist-id", song.artist.id);
-        row.setAttribute("data-genre-id", song.genre.id);
+        row.setAttribute("data-song-id", song.id); // Add song ID as an attribute
+
+        // Add event listener to each row to handle song details view
+        row.addEventListener('click', () => {
+            showSingleSongView(song);
+        });
+        // Add a button for "Add to Playlist"
+        const addToPlaylistButton = document.createElement("button");
+        addToPlaylistButton.innerText = "Add";
+        addToPlaylistButton.addEventListener('click', () => {
+            addToPlaylist(song);
+        });
+
+        // Append the button to the row
+        const addToPlaylistCell = row.insertCell(5);
+        addToPlaylistCell.appendChild(addToPlaylistButton);
     }
+}
+function addToPlaylist(song) {
+    // Add your logic here to handle adding the song to the playlist
+    // For now, let's log to the console
+    console.log(`Added "${song.title}" to the playlist!`);
 }
 //Function to the filter the songs: title,artist,genre
 function filterSongs() {
