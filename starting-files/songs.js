@@ -106,8 +106,9 @@ function showSingleSongView(song) {
     hideElement(songTable);
     const singleSongView = document.getElementById('singleSongView');
     showElement(singleSongView);
-    const { details, analytics, title, artist, genre, year, bpm, popularity } = song;
-    const { danceability, energy, valence, speechiness, loudness, liveness, acousticness } = analytics;
+    const { details, analytics, title, artist, genre, year} = song;
+    const{bpm,loudness,popularity}=details;
+    const { danceability, energy, valence, speechiness, liveness, acousticness } = analytics;
     const durationString = `${Math.floor(details.duration / 60)}:${details.duration % 60}`;
     const singleSongViewContent = `
       <h2>Single Song View</h2>
