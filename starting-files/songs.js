@@ -100,124 +100,236 @@ function updateSortIndicator(field, isAscending) {
 }
 //Single View Page Function 
 function showSingleSongView(song) {
-    // Hide the song table
+    const hideElement = (element) => element.style.display = 'none';
+    const showElement = (element) => element.style.display = 'block';
     const songTable = document.getElementById('songTable');
-    songTable.style.display = 'none'; 
-    // Display the Single Song View
+    hideElement(songTable);
     const singleSongView = document.getElementById('singleSongView');
-    singleSongView.style.display = 'block';
-       // Convert duration to minutes and seconds
-       const duration = song.details.duration;
-       const minutes = Math.floor(duration / 60);
-       const seconds = duration % 60;
-       const durationString = `${minutes}:${seconds}`;
-   
-       const analyticsDetails = song.analytics;
-   
-       const songDetails = [
-         { x: 'Danceability', value: analyticsDetails.danceability },
-           { x: 'Energy', value: analyticsDetails.energy },
-          { x: 'Speechiness', value: analyticsDetails.speechiness },
-          { x: 'Acousticness', value: analyticsDetails.acousticness },
-          { x: 'Liveness', value: analyticsDetails.liveness },
-          { x: 'Valence', value: analyticsDetails.valence }
-      ];
-    // Populate single song view details
-       const singleSongViewContent = `
-           <h2>Single Song View</h2>
-           <div class="song-details">
-               <h3>Song Information</h3>
-               <p><strong>Title:</strong> ${song.title}</p>
-               <p><strong>Artist:</strong> ${findArtistName(song.artist.id)}</p>
-               <p><strong>Genre:</strong> ${findGenreName(song.genre.id)}</p>
-               <p><strong>Year:</strong> ${song.year}</p>
-               <p><strong>Duration:</strong> ${durationString} minutes</p>
-         <h3>Analysis data</h4>
-         <h5 id="bpm">bpm: <b>${song.details.bpm}</b></h5>
-         <h5 id="songEnergy">Energy: ${song.analytics.energy}</h5>
-         <h5 id="songLoudness">Loudness: ${song.details.loudness}</h5>
-         <h5 id="songDanceability">Danceability: ${song.analytics.danceability}</h5>
-         <h5 id="songLiveness">Liveness: ${song.analytics.liveness}</h5>
-         <h5 id="songValence">Valence: ${song.analytics.valence}</h5>
-         <h5 id="songAcousticness">Acousticness: ${song.analytics.acousticness}</h5>
-         <h5 id="songSpeechiness">Speechiness: ${song.analytics.speechiness}</h5>
-         <h5 id="songPopularity">Popularity: ${song.details.popularity}</h5>
-           </div>
-           <div class="radar-chart">
-               <h3>Radar Chart</h3>
-               <canvas id="radarChartCanvas"></canvas>
-           </div>
-           <button id="closeViewButton">Close View</button>
-       `;
-   // Update the content of the single song view
-   singleSongView.innerHTML = singleSongViewContent;
-   // Create radar chart using the canvas
-   const radarChartCanvas = document.getElementById('radarChartCanvas');
-   const radarChart = new Chart(radarChartCanvas, {
-       type: 'radar',
-       data: {
-           labels: ['Danceability', 'Energy', 'Valence', 'Speechiness', 'Loudness', 'Liveness'],
-           datasets: [{
-               label: 'Song Metrics',
-               data: [song.analytics.danceability, song.analytics.energy, song.analytics.valence , song.analytics.speechiness, song.details.loudness, song.analytics.liveness],
-               backgroundColor: 'rgba(0, 0, 225, 0.3)',
-               borderColor: 'rgba(60, 60, 60, 60)',
-               borderWidth: 2
-           }]
-       },
-       options: {
-           scale: {
-               ticks: { beginAtZero:true},
-               pointLabels: { fontSize: 20 } 
-           }
-       }
-   });
-    // Add an event listener to the "Close View" button
+    showElement(singleSongView);
+    const { details, analytics, title, artist, genre, year, bpm, popularity } = song;
+    const { danceability, energy, valence, speechiness, loudness, liveness, acousticness } = analytics;
+    const durationString = `${Math.floor(details.duration / 60)}:${details.duration % 60}`;
+    const singleSongViewContent = `
+      <h2>Single Song View</h2>
+      <div class="song-details">
+        <h3>Song Information</h3>
+        <p><strong>Title:</strong> ${title}</p>
+        <p><strong>Artist:</strong> ${findArtistName(artist.id)}</p>
+        <p><strong>Genre:</strong> ${findGenreName(genre.id)}</p>
+        <p><strong>Year:</strong> ${year}</p>
+        <p><strong>Duration:</strong> ${durationString} minutes</p>
+        <h3>Analysis data</h4>
+        <h5 id="bpm">bpm: <b>${bpm}</b></h5>
+        <h5 id="songEnergy">Energy: ${energy}</h5>
+        <h5 id="songLoudness">Loudness: ${loudness}</h5>
+        <h5 id="songDanceability">Danceability: ${danceability}</h5>
+        <h5 id="songLiveness">Liveness: ${liveness}</h5>
+        <h5 id="songValence">Valence: ${valence}</h5>
+        <h5 id="songAcousticness">Acousticness: ${acousticness}</h5>
+        <h5 id="songSpeechiness">Speechiness: ${speechiness}</h5>
+        <h5 id="songPopularity">Popularity: ${popularity}</h5>
+      </div>
+      <div class="radar-chart">
+        <h3>Radar Chart</h3>
+        <canvas id="radarChartCanvas"></canvas>
+      </div>
+      <button id="closeViewButton">Close View</button>
+    `;
+    singleSongView.innerHTML = singleSongViewContent;
+    const radarChartCanvas = document.getElementById('radarChartCanvas');
+    const radarChart = new Chart(radarChartCanvas, {
+      type: 'radar',
+      data: {
+        labels: ['Danceability', 'Energy', 'Valence', 'Speechiness', 'Loudness', 'Liveness'],
+        datasets: [{
+          label: 'Song Metrics',
+          data: [danceability, energy, valence, speechiness, loudness, liveness],
+          backgroundColor: 'rgba(0, 0, 225, 0.3)',
+          borderColor: 'rgba(60, 60, 60, 60)',
+          borderWidth: 2
+        }]
+      },
+      options: {
+        scale: {
+          ticks: { beginAtZero: true },
+          pointLabels: { fontSize: 20 }
+        }
+      }
+    });
     const closeViewButton = document.getElementById('closeViewButton');
     closeViewButton.addEventListener('click', () => {
-        // Show the song table again
-        songTable.style.display = 'block';
-        // Hide the Single Song View
-        singleSongView.style.display = 'none';
+      showElement(songTable);
+      hideElement(singleSongView);
     });
-   // Return the radarChart object
     return radarChart;
-   }
-//Populate the song list on the table
-function populateSongList() {
-    songListBody.innerHTML = ""; // Clear the existing content
-    for (let i = 0; i < songs.length; i++) {
-        const song = songs[i];
-        const row = songListBody.insertRow();
-        row.insertCell(0).innerText = song.title;
-        row.insertCell(1).innerText = findArtistName(song.artist.id);
-        row.insertCell(2).innerText = song.year;
-        row.insertCell(3).innerText = findGenreName(song.genre.id);
-        row.insertCell(4).innerText = song.details.popularity;
-        row.setAttribute("data-song-id", song.id); // Add song ID as an attribute
+  }
+  //function to populute the song in the table
+  function populateSongList() {
+    songListBody.innerHTML = ""; 
+    for (const song of songs) {
+      const row = songListBody.insertRow();
+      row.addEventListener('click', () => showSingleSongView(song));
+      row.classList.add('clickable-row');
+      const titleCell = row.insertCell(0);
+      titleCell.innerHTML = `<a href="#" class="song-link">${song.title}</a>`;
+      titleCell.addEventListener('click', (event) => {
+        event.stopPropagation();
+        showSingleSongView(song);
+      });
+      row.insertCell(1).innerText = findArtistName(song.artist.id);
+      row.insertCell(2).innerText = song.year;
+      row.insertCell(3).innerText = findGenreName(song.genre.id);
+      row.insertCell(4).innerText = song.details.popularity;
+  
+      row.setAttribute("data-artist-id", song.artist.id);
+      row.setAttribute("data-genre-id", song.genre.id);
+  
+      const addToPlaylistButton = document.createElement("button");
+      addToPlaylistButton.innerText = "Add";
+      addToPlaylistButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+        addToPlaylist(song);
+      });
+      const addToPlaylistCell = row.insertCell(5);
+      addToPlaylistCell.appendChild(addToPlaylistButton);
+    }
+  }
+// Placeholder for the array that holds songs in the playlist
+const songsInPlaylist = [];
+// Function to update the playlist summary
+function updatePlaylistSummary() {
+    const totalSongsElement = document.getElementById("totalSongs");
+    const averagePopularityElement = document.getElementById("averagePopularity");
+    // Update the total songs count
+    totalSongsElement.textContent = songsInPlaylist.length;
+    // Calculate and update the average popularity
+    const totalPopularity = songsInPlaylist.reduce((sum, song) => sum + song.details.popularity, 0);
+    const averagePopularity = totalPopularity / songsInPlaylist.length;
+    averagePopularityElement.textContent = averagePopularity.toFixed(2);
+}
+// Function to toggle the display of the playlist view and hide the song table
+function togglePlaylistView(displayStyle) {
+    const playlistViewSection = document.getElementById("playlistView");
+    const songTable = document.getElementById("songTable");
 
-        // Add event listener to each row to handle song details view
-        row.addEventListener('click', () => {
-            showSingleSongView(song);
-        });
-        // Add a button for "Add to Playlist"
-        const addToPlaylistButton = document.createElement("button");
-        addToPlaylistButton.innerText = "Add";
-        addToPlaylistButton.addEventListener('click', () => {
-            addToPlaylist(song);
-        });
+    playlistViewSection.style.display = displayStyle;
+    songTable.style.display = displayStyle === "block" ? "none" : "block";
+}
+// Function to add a song to the playlist
+function addToPlaylist(song) {
+    // Check if the song is already in the playlist
+    const isDuplicate = songsInPlaylist.some(item =>
+        item.title === song.title &&
+        item.artist.id === song.artist.id &&
+        item.year === song.year &&
+        item.genre.id === song.genre.id
+    );
+    if (isDuplicate) {
+        // Show a snackbar for the duplicate song
+        const duplicateSnackbar = document.getElementById('duplicateSnackbar');
+        duplicateSnackbar.innerText = `"${song.title}" is already in the playlist.`;
+        duplicateSnackbar.style.display = 'block';
+        duplicateSnackbar.style.opacity = '1';
 
-        // Append the button to the row
-        const addToPlaylistCell = row.insertCell(5);
-        addToPlaylistCell.appendChild(addToPlaylistButton);
+        // Hide the duplicate snackbar after a few seconds
+        setTimeout(() => {
+            duplicateSnackbar.style.opacity = '0';
+            setTimeout(() => {
+                duplicateSnackbar.style.display = 'none';
+            }, 300);
+        }, 3000); // Adjust the time (in milliseconds) the snackbar is visible
+
+        return;
+    }
+    // Add the song to the playlist array
+    songsInPlaylist.push(song);
+    // Update the playlist summary
+    updatePlaylistSummary();
+    // Show the snackbar
+    const snackbar = document.getElementById('snackbar');
+    snackbar.innerText = `"${song.title}" added to the playlist!`;
+    snackbar.style.display = 'block';
+    snackbar.style.opacity = '1';
+    // Hide the snackbar after a few seconds
+    setTimeout(() => {
+        snackbar.style.opacity = '0';
+        setTimeout(() => {
+            snackbar.style.display = 'none';
+        }, 300);
+    }, 3000); // Adjust the time (in milliseconds) the snackbar is visible
+    // For now, log to the console
+    console.log(`Added "${song.title}" to the playlist!`);
+    // Show the playlist view only if it's currently hidden
+    if (document.getElementById('playlistView').style.display === 'none') {
+        // Show the playlist view and hide the song table
+        togglePlaylistView("none");
+    }
+    // Add the song to the playlist table
+    const playlistTableBody = document.getElementById("playlistTableBody");
+    const playlistRow = playlistTableBody.insertRow();
+    playlistRow.insertCell(0).innerHTML = `<a href="#" class="song-link">${song.title}</a>`;
+    playlistRow.insertCell(1).innerText = findArtistName(song.artist.id);
+    playlistRow.insertCell(2).innerText = song.year;
+    playlistRow.insertCell(3).innerText = findGenreName(song.genre.id);
+    playlistRow.insertCell(4).innerText = song.details.popularity;
+
+    // Add event listener to the title cell
+    const titleCell = playlistRow.cells[0];
+    titleCell.addEventListener('click', (event) => {
+        event.stopPropagation(); // Prevent row click
+        // Show the single song view and hide both the playlist table and the song table
+        showSingleSongView(song);
+        togglePlaylistView("none");
+        document.getElementById('songTable').style.display = 'none';
+    });
+    // Add a button to remove the song from the playlist
+    const removeButton = document.createElement("button");
+    removeButton.innerText = "Remove";
+    removeButton.addEventListener('click', (event) => {
+        event.stopPropagation(); // Prevent row click
+        removeFromPlaylist(song);
+    });
+    const removeCell = playlistRow.insertCell(5);
+    removeCell.appendChild(removeButton);
+}
+// Function to remove a song from the playlist
+function removeFromPlaylist(song) {
+    const index = songsInPlaylist.findIndex(item => item.id === song.id);
+    if (index !== -1) {
+        songsInPlaylist.splice(index, 1);
+        // Update the playlist summary
+        updatePlaylistSummary();
+        // Remove the row from the playlist table
+        const playlistTableBody = document.getElementById("playlistTableBody");
+        playlistTableBody.deleteRow(index);
+        // If the playlist is empty, hide the playlist view
+        if (songsInPlaylist.length === 0) {
+            togglePlaylistView("none");
+        }
     }
 }
-function addToPlaylist(song) {
-    // Add your logic here to handle adding the song to the playlist
-    // For now, let's log to the console
-    console.log(`Added "${song.title}" to the playlist!`);
+// Function to clear the entire playlist
+function clearPlaylist() {
+    // Clear the songsInPlaylist array
+    songsInPlaylist.length = 0;
+    // Update the playlist summary
+    updatePlaylistSummary();
+    // Remove all rows from the playlist table
+    const playlistTableBody = document.getElementById("playlistTableBody");
+    while (playlistTableBody.firstChild) {
+        playlistTableBody.removeChild(playlistTableBody.firstChild);
+    }
+    // Hide the playlist view
+    togglePlaylistView("none");
 }
-//Function to the filter the songs: title,artist,genre
+// Add an event listener to the "Clear Playlist" button
+document.getElementById('clearPlaylistButton').addEventListener('click', clearPlaylist);
+// Add an event listener to the "Playlist" button
+document.getElementById('playlistButton').addEventListener('click', () => {
+// Show the playlist view and hide the song table
+togglePlaylistView("block");
+});
+// Function to filter the songs: title, artist, genre
 function filterSongs() {
     // Get the selected radio button
     const selectedRadio = document.querySelector('input[name="searchCategory"]:checked');
@@ -232,10 +344,10 @@ function filterSongs() {
         filteredSongs = songs.filter(song => song.title.toLowerCase().includes(titleInput));
     } else if (selectedRadio && selectedRadio.id === 'artistRadio') {
         // Filter by artist
-        filteredSongs = songs.filter(song => findArtistName(song.artist.id).toLowerCase().includes(artistInput));
+        filteredSongs = songs.filter(song => findArtistName(song.artist.id).toLowerCase() === artistInput);
     } else if (selectedRadio && selectedRadio.id === 'genreRadio') {
         // Filter by genre
-        filteredSongs = songs.filter(song => findGenreName(song.genre.id).toLowerCase().includes(genreInput));
+        filteredSongs = songs.filter(song => findGenreName(song.genre.id).toLowerCase() === genreInput);
     }
     // Sort the filtered songs and update the display
     sortSongs(lastSortField);
@@ -246,10 +358,10 @@ document.getElementById('filterButton').addEventListener('click', filterSongs);
 // Function to display filtered songs
 function displayFilteredSongs(filteredSongs) {
     songListBody.innerHTML = "";
-// Display the filtered songs in the table
+    // Display the filtered songs in the table
     filteredSongs.forEach(song => {
         const row = songListBody.insertRow();
-        row.insertCell(0).innerText = song.title;
+        row.insertCell(0).innerHTML = `<a href="#" class="song-link">${song.title}</a>`;
         row.insertCell(1).innerText = findArtistName(song.artist.id);
         row.insertCell(2).innerText = song.year;
         row.insertCell(3).innerText = findGenreName(song.genre.id);
@@ -257,6 +369,15 @@ function displayFilteredSongs(filteredSongs) {
         // Set data attributes for artist and genre IDs
         row.setAttribute("data-artist-id", song.artist.id);
         row.setAttribute("data-genre-id", song.genre.id);
+        // Add "Add to Playlist" button
+        const addToPlaylistButton = document.createElement("button");
+        addToPlaylistButton.innerText = "Add";
+        addToPlaylistButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            addToPlaylist(song);
+        });
+        const addToPlaylistCell = row.insertCell(5);
+        addToPlaylistCell.appendChild(addToPlaylistButton);
     });
 }
 // Add event listener for the "Clear" button
@@ -287,3 +408,11 @@ fetch(api)
     .catch(error => {
         console.error("Error fetching data from the API:", error);
     });
+ // on hover of .creditsbutton .cont for 5sec
+ const creditShow = document.querySelector(".creditsbutton");
+ const creditContent = document.querySelector(".cont");
+ creditShow.addEventListener("mouseover", () => {
+   creditContent.style.display = "block";
+   setTimeout(() => creditContent.style.display = "none", 5000);
+ });
+ 
