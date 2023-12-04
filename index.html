@@ -10,18 +10,30 @@
     <script src="./starting-files/artists.json"></script>
     <script src="./starting-files/genres.json"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 </head>
 <body>
  <header>   
     <div class="header">                         
     <h1>Comp 3512 Assignment 2</h1>
     </div>
-    <h2>Group Members:</h2>
-    <ul>
-        <li>Juveluzel Lopena</li>
-</ul>
+    <div id="snackbar">Song added to playlist!</div>
+       <!-- Place this where it makes sense in your HTML body -->
+    <div id="duplicateSnackbar">Song is already in the playlist!</div>
+    <div >
+        <a href="index.html" class="custom-btn">Home</a>
+        <button class="playlistButton" id="playlistButton">Playlist</button>
+    </div>
+    <div class="credits">
+        <button class="creditsbutton">Credits</button>
+        <div class="cont">
+            <a href='https://github.com/vannex2121/Comp3512Assign2'>Assignment Repository </a><br>
+            <p>Contributors:<br>
+                <a href='https://github.com/vannex2121'>Juveluzel Lopena</a><br>
+           </p>
+           </div>
+    </div>
 </header>
+  <!-- Main page view Search/Browse song Section -->
     <h2>Search/Browse Songs</h2>
     <form id="filterForm">
     <input type="radio" id="titleRadio" name="searchCategory" checked>
@@ -33,11 +45,10 @@
     <input type="radio" id="genreRadio" name="searchCategory">
     <label for="genreRadio">Select Genre</label>
     <select id="genreSelect"></select>
-        
     <button type="button" id="filterButton">Filter</button>
     <button type="button" id="clearButton">Clear</button>
     </form>
-   <h3>Song List</h3>
+      <!-- Song view Section -->
     <table id="songTable">
         <thead>
             <tr>
@@ -51,12 +62,33 @@
         </thead>
         <tbody id="songTableBody"></tbody>
     </table>
-   
+   <!-- Playlist View Section -->
+   <section id="playlistView" style="display: none;">
+    <h2>Playlist View</h2>
+    <button id="clearPlaylistButton">Clear Playlist</button>
+    <div id="playlistSummary">
+        <p>Total Songs: <span id="totalSongs"></span></p>
+        <p>Average Popularity: <span id="averagePopularity"></span></p>
+    </div>
+    <!-- Add this div for the snackbar -->
+    <table id="playlistTable">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Artist</th>
+                <th>Year</th>
+                <th>Genre</th>
+                <th>Popularity</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody id="playlistTableBody"></tbody>
+    </table>
+</section>
     <div id="singleSongView" style="display: none;">
         <h2>Single Song View</h2>
-        <!-- Add other song details here -->
-        <canvas id="radarChartCanvas"></canvas>
+        <div class="chart" id="chart">
         <button id="closeViewButton">Close View</button>
     </div>
-</body>
+ </body>
 </html>
