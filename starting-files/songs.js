@@ -67,7 +67,7 @@ function sortSongs(field) {
     const isSameField = field === lastSortField;
     const isAscending = isSameField ? !lastSortAscending : true;
     songs.sort((a, b) => {
-        // Use localeCompare for string comparison, handle genre as a special case
+// Use localeCompare for string comparison, handle genre as a special case
         const comparison =
             field === "title"
                 ? a[field].localeCompare(b[field])
@@ -98,15 +98,17 @@ function updateSortIndicator(field, isAscending) {
     // Add the appropriate class for the sorting order
     clickedHeader.classList.add(isAscending ? "asc" : "desc");
 }
-//Single View Page Function 
+//Single View Page Function and chart view for the song details
 function showSingleSongView(song) {
     const hideElement = (element) => element.style.display = 'none';
     const showElement = (element) => element.style.display = 'block';
     const songTable = document.getElementById('songTable');
+    const mainDiv = document.querySelector('.main');
     hideElement(songTable);
+    hideElement(mainDiv);
     const singleSongView = document.getElementById('singleSongView');
     showElement(singleSongView);
-    const { details, analytics, title, artist, genre, year} = song;
+    const { details, analytics, title, artist, genre, year } = song;
     const{bpm,loudness,popularity}=details;
     const { danceability, energy, valence, speechiness, liveness, acousticness } = analytics;
     const durationString = `${Math.floor(details.duration / 60)}:${details.duration % 60}`;
@@ -144,7 +146,7 @@ function showSingleSongView(song) {
         labels: ['Danceability', 'Energy', 'Valence', 'Speechiness', 'Loudness', 'Liveness'],
         datasets: [{
           label: 'Song Metrics',
-          data: [danceability, energy, valence, speechiness, loudness, liveness],
+          data: [danceability, energy, valence, speechiness,loudness, liveness],
           backgroundColor: 'rgba(0, 0, 225, 0.3)',
           borderColor: 'rgba(60, 60, 60, 60)',
           borderWidth: 2
@@ -160,11 +162,12 @@ function showSingleSongView(song) {
     const closeViewButton = document.getElementById('closeViewButton');
     closeViewButton.addEventListener('click', () => {
       showElement(songTable);
+      showElement(mainDiv);
       hideElement(singleSongView);
     });
     return radarChart;
   }
-  //function to populute the song in the table
+  //function to populate the song in the table
   function populateSongList() {
     songListBody.innerHTML = ""; 
     for (const song of songs) {
@@ -208,11 +211,22 @@ function updatePlaylistSummary() {
     const averagePopularity = totalPopularity / songsInPlaylist.length;
     averagePopularityElement.textContent = averagePopularity.toFixed(2);
 }
+// Add a function to toggle the visibility of the main div
+function toggleMainDivVisibility(displayStyle) {
+    const mainDiv = document.querySelector('.main');
+    mainDiv.style.display = displayStyle;
+}
 // Function to toggle the display of the playlist view and hide the song table
 function togglePlaylistView(displayStyle) {
     const playlistViewSection = document.getElementById("playlistView");
     const songTable = document.getElementById("songTable");
-
+// Hide the main div when entering the playlist view
+    if (displayStyle === "block") {
+        toggleMainDivVisibility("none");
+    } else {
+        // Show the main div when leaving the playlist view
+        toggleMainDivVisibility("block");
+    }
     playlistViewSection.style.display = displayStyle;
     songTable.style.display = displayStyle === "block" ? "none" : "block";
 }
@@ -231,16 +245,14 @@ function addToPlaylist(song) {
         duplicateSnackbar.innerText = `"${song.title}" is already in the playlist.`;
         duplicateSnackbar.style.display = 'block';
         duplicateSnackbar.style.opacity = '1';
-
         // Hide the duplicate snackbar after a few seconds
         setTimeout(() => {
             duplicateSnackbar.style.opacity = '0';
             setTimeout(() => {
                 duplicateSnackbar.style.display = 'none';
             }, 300);
-        }, 3000); // Adjust the time (in milliseconds) the snackbar is visible
-
-        return;
+        }, 3000); 
+         return;
     }
     // Add the song to the playlist array
     songsInPlaylist.push(song);
@@ -257,7 +269,7 @@ function addToPlaylist(song) {
         setTimeout(() => {
             snackbar.style.display = 'none';
         }, 300);
-    }, 3000); // Adjust the time (in milliseconds) the snackbar is visible
+    }, 3000); 
     // For now, log to the console
     console.log(`Added "${song.title}" to the playlist!`);
     // Show the playlist view only if it's currently hidden
@@ -273,16 +285,21 @@ function addToPlaylist(song) {
     playlistRow.insertCell(2).innerText = song.year;
     playlistRow.insertCell(3).innerText = findGenreName(song.genre.id);
     playlistRow.insertCell(4).innerText = song.details.popularity;
-
     // Add event listener to the title cell
     const titleCell = playlistRow.cells[0];
     titleCell.addEventListener('click', (event) => {
-        event.stopPropagation(); // Prevent row click
-        // Show the single song view and hide both the playlist table and the song table
+        event.stopPropagation();
+    // Show the single song view and hide both the playlist table and the song table
         showSingleSongView(song);
         togglePlaylistView("none");
+        toggleMainDivVisibility("none");
         document.getElementById('songTable').style.display = 'none';
     });
+       // Show the playlist view only if it's currently hidden
+       if (document.getElementById('playlistView').style.display === 'none') {
+        // Show the playlist view and hide the song table
+        togglePlaylistView("none");
+    }
     // Add a button to remove the song from the playlist
     const removeButton = document.createElement("button");
     removeButton.innerText = "Remove";
@@ -367,6 +384,15 @@ function displayFilteredSongs(filteredSongs) {
         row.insertCell(2).innerText = song.year;
         row.insertCell(3).innerText = findGenreName(song.genre.id);
         row.insertCell(4).innerText = song.details.popularity;
+        //event listener that when the title click it will show the singleview song
+        const titleCell = row.cells[0];
+        titleCell.addEventListener('click', (event) => {
+        event.stopPropagation();
+        // Show the single song view and hide both the playlist table and the song table
+        showSingleSongView(song);
+        togglePlaylistView("none");
+        document.getElementById('songTable').style.display = 'none';
+    });
         // Set data attributes for artist and genre IDs
         row.setAttribute("data-artist-id", song.artist.id);
         row.setAttribute("data-genre-id", song.genre.id);
@@ -394,21 +420,29 @@ function clearFilters() {
     populateSongList();
 }
 // Initial sort and population of the song list
-fetch(api)
-    .then(response => response.json())
-    .then(data => {
-        // Cache the data in localStorage
-        localStorage.setItem('cachedSongs', JSON.stringify(data));
-        // Update the songs array
-        songs = data;
-        // Sort the songs by title
-        sortSongs("title");
-        // Render the song list
-        populateSongList();
-    })
-    .catch(error => {
-        console.error("Error fetching data from the API:", error);
-    });
+const songsStorage = localStorage.getItem('songsStorage');
+if (songsStorage) {
+    // If cached songs are available in local storage, use them
+    songs = JSON.parse(songsStorage);
+    // Sort the songs by title
+    sortSongs("title");
+    // display the song list
+    populateSongList();
+} else {
+    // If cached songs are not available, fetch from the API
+    fetch(api)
+        .then(response => response.json())
+        .then(data => {
+            // Cache the data in localStorage
+            localStorage.setItem('songsStorage', JSON.stringify(data));
+            songs = data;
+            sortSongs("title");
+            populateSongList();
+        })
+        .catch(error => {
+            console.error("Error fetching data from the API:", error);
+        });
+}
  // on hover of .creditsbutton .cont for 5sec
  const creditShow = document.querySelector(".creditsbutton");
  const creditContent = document.querySelector(".cont");
@@ -416,4 +450,5 @@ fetch(api)
    creditContent.style.display = "block";
    setTimeout(() => creditContent.style.display = "none", 5000);
  });
+ 
  
