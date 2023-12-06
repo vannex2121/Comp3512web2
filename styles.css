@@ -1,173 +1,130 @@
-body{
-  background: url(./starting-files/musicbackground.jpg);
+body {
+  background: url(./starting-files/musicpic.jpg) center center fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
+
 table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+  border-collapse: collapse;
+  margin-top: 20px;
+  width: 100%;
 }
 
 th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
 }
 
 th {
-    background-color: #f2f2f2;
-}
-#songTableBody,#playlistTable {
-    max-height: 300px; /* Set the desired max height for scrollability */
-    overflow-y: auto;
-    background: url(./starting-files/musicpic.jpg);
-}
-th.sorted::after {
-    content: " ▲▼"; /* Unicode for up and down arrows */
-    font-size: 12px;
-    margin-left: 5px;
-}
-th.sorted.asc::after {
-    content: " ▲";
-}
-th.sorted.desc::after {
-    content: " ▼";
-}
-.hide{
-    display: none;
-}
-.show{
-    display: block;
-}
-.credits {
-    display: flex;
-    position: absolute;
-    right: 5%;
-    width: 20%;
-
-  }
-  .cont {
-    display: flex;
-    position: absolute;
-    background-color: white;
-    top: 30px;
-    left: 5px;
-    z-index: 1;
-    display: none;
-  }
-  #radarChartCanvas {
-    width: 500px;
-    height: 500px;
-    margin: auto;
-    padding: 1rem;
-    float: left;
+  background-color: #f2f2f2;
 }
 
-.song-details {
-    display: inline-block;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    margin: auto;
-    padding: 1rem;
-    background-color: rgba(7, 112, 42, 0.8);
-    color: #0e0e0d;
-    width: calc(50% - 0.5rem); /* Adjust width and spacing based on your design */
+.homenav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
 }
 
-.radar-chart {
+.custom-btn,
+.playlistButton {
+  background-color: #4c74af; 
+  color: #fff;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.custom-btn:hover,
+.playlistButton:hover {
+  background-color: rgb(69, 127, 160); 
+}
+
+.header {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Center items horizontally */
-  align-items: center; /* Center items vertically */
-  width: calc(50% - 0.5rem);
-  margin: auto;
-  float: right;
-  margin-top: -40rem;
-}
-
-#closeViewButton {
-  margin-left: 80rem; /* Adjust the margin to separate the button from the chart */
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(89, 148, 216);
+  padding: 10px;
 }
 
 
-  /* all h's */
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    text-align: left;
-    margin: 10px 0;
-    padding: 0.1rem 0.6rem;
-  }
-
-
-  #songTable{
-    border-collapse: collapse;
-    width: 80%; 
-    margin: auto; 
-    margin-top: 20px;
-
-}
-#songTable th, #songTable td {
-  border: 1px solid #770505;
-  padding: 12px; 
-  text-align: left;
-}
-  
-  #songTable th {
-    background-color: #f2f2f2;
-  }
-  
-  #songTable tbody tr:hover {
-    background-color: #609c27;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.credits {
+  position: relative;
 }
 
-#songTable tbody tr:hover td {
-    color: #007bff;
+.credits:hover .cont {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 2;
 }
-  #snackbar {
-    display: none;
-    position: fixed;
-    top:50%;
-    font-size: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 15px;
-    background-color: #333;
-    color: #fff;
-    border-radius: 5px;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-}
-#duplicateSnackbar {
+
+.cont {
   display: none;
-  position: fixed;
-  top:50%;
-  left: 50%;
-  font-size:50px;
-  transform: translateX(-50%);
-  padding: 25px;
-  background-color: #d32f2f;
-  color: #fff;
-  border-radius: 5px;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
+  background-color: white;
 }
+/* Styling for headers */
+h1, h2, h3, h4, h5, h6 {
+  text-align: center;
+  color: #333;
+  margin: 10px 0;
+  padding: 0.1rem 0.6rem;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+/* Styling for form */
+form {
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+/* Styling for form input fields */
+input[type="text"], select, button {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+/* Styling for form buttons */
+button[type="button"] {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="button"]:hover {
+  background-color: #0056b3;
+}
+
+/* Additional styling for playlist table */
 #playlistTable {
-  border-collapse: collapse;
-  width: 80%; /* Adjust the width based on your design */
-  margin: auto; /* Center the table */
+  width: 80%;
+  margin: auto;
   margin-top: 20px;
 }
 
 #playlistTable th, #playlistTable td {
   border: 1px solid #ddd;
-  padding: 12px; /* Adjust padding for a nicer look */
+  padding: 12px;
   text-align: left;
 }
 
@@ -184,3 +141,114 @@ th.sorted.desc::after {
 #playlistTable tbody tr:hover td {
   color: #007bff;
 }
+
+/* Snackbar styling */
+#snackbar, #duplicateSnackbar {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 50px; 
+  padding: 50px;
+  color: rgba(255, 230, 230, 0.993);
+  border-radius: 5px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+#duplicateSnackbar {
+  background-color: #d32f2f;
+}
+#snackbar{
+  background-color: rgb(0, 38, 255);
+ }
+/* Chart styling */
+#radarChartCanvas {
+  width: 500px;
+  height: 500px;
+  margin: auto;
+  padding: 1rem;
+  float: left;
+}
+
+.song-details {
+  display: inline-block;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  padding: 1rem;
+  background-color: rgba(81, 117, 235, 0.8);
+  color: #0e0e0d;
+  width: calc(50% - 0.5rem);
+}
+
+.radar-chart {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: calc(50% - 0.5rem);
+  margin: auto;
+  float: right;
+  margin-top: -40rem;
+}
+
+#closeViewButton {
+  margin-left: 80rem;
+}
+#songTable {
+  width: 95%; 
+  margin: auto;
+  margin-top: 20px;
+  table-layout: fixed;
+}
+
+#songTable th,
+#songTable td {
+  border: 1px solid #770505;
+  padding: 12px;
+  text-align: left;
+}
+
+#songTable th {
+  background-color: #f2f2f2;
+  position: relative;
+}
+
+#songTable th.sorted::after {
+  content: " ▲▼";
+  font-size: 12px;
+  margin-left: 5px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#songTable th.sorted.asc::after {
+  content: " ▲";
+}
+
+#songTable th.sorted.desc::after {
+  content: " ▼";
+}
+
+#songTable tbody tr:nth-child(odd) {
+  background-color: #f9f9f9; /* Background color for odd rows */
+}
+
+#songTable tbody tr:nth-child(even) {
+  background-color: #e0e0e0; /* Background color for even rows */
+}
+
+#songTable tbody tr:hover {
+  background-color: #5799d6;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#songTable tbody tr:hover td {
+  color: #007bff;
+}
+
