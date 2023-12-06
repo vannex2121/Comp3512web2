@@ -12,27 +12,27 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
- <header>   
-    <div class="header">                         
-    <h1>Comp 3512 Assignment 2</h1>
-    </div>
-    <div id="snackbar">Song added to playlist!</div>
-       <!-- Place this where it makes sense in your HTML body -->
-    <div id="duplicateSnackbar">Song is already in the playlist!</div>
-    <div >
-        <a href="index.html" class="custom-btn">Home</a>
-        <button class="playlistButton" id="playlistButton">Playlist</button>
-    </div>
-    <div class="credits">
-        <button class="creditsbutton">Credits</button>
+    <div class="main">
+    <header>   
+     
+        <div class="header">                         
+            <h1>Comp 3512 Assignment 2</h1>
+        </div>
+        <div id="snackbar">Song added to playlist!</div>
+        <div id="duplicateSnackbar">Song is already in the playlist!</div>
+        <div class="homenav" >
+            <a href="index.html" class="custom-btn">Home</a>
+            <button class="playlistButton" id="playlistButton">Playlist</button>
+            <button class="creditsbutton">Credits</button>
+        </div>
         <div class="cont">
             <a href='https://github.com/vannex2121/Comp3512Assign2'>Assignment Repository </a><br>
             <p>Contributors:<br>
                 <a href='https://github.com/vannex2121'>Juveluzel Lopena</a><br>
-           </p>
-           </div>
-    </div>
-</header>
+            </p>
+        </div>
+    
+    </header>
   <!-- Main page view Search/Browse song Section -->
     <h2>Search/Browse Songs</h2>
     <form id="filterForm">
@@ -48,6 +48,7 @@
     <button type="button" id="filterButton">Filter</button>
     <button type="button" id="clearButton">Clear</button>
     </form>
+    </div>
       <!-- Song view Section -->
     <table id="songTable">
         <thead>
@@ -70,7 +71,6 @@
         <p>Total Songs: <span id="totalSongs"></span></p>
         <p>Average Popularity: <span id="averagePopularity"></span></p>
     </div>
-    <!-- Add this div for the snackbar -->
     <table id="playlistTable">
         <thead>
             <tr>
@@ -92,3 +92,4 @@
     </div>
  </body>
 </html>
+
