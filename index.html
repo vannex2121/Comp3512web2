@@ -14,27 +14,26 @@
 <body>
     <div class="main">
     <header>   
-     
-        <div class="header">                         
+     <div class="header">                         
             <h1>Comp 3512 Assignment 2</h1>
         </div>
         <div id="snackbar">Song added to playlist!</div>
         <div id="duplicateSnackbar">Song is already in the playlist!</div>
         <div class="homenav" >
             <button class="playlistButton" id="playlistButton">Playlist</button>
+            <button id="closeViewButton">Close View</button>
             <button class="creditsbutton">Credits</button>
         </div>
         <div class="cont">
-            <a href='https://github.com/vannex2121/Comp3512Assign2'>Assignment Repository </a><br>
-            <p>Contributors:<br>
-                <a href='https://github.com/vannex2121'>Juveluzel Lopena</a><br>
+            <a href='https://github.com/vannex2121/Comp3512Assign2'>Assignment Github Repository </a>
+            <p>Group Member:<br>
+                <a href='https://github.com/vannex2121'>Juveluzel Lopena</a>
             </p>
         </div>
-    
     </header>
   <!-- Main page view Search/Browse song Section -->
-    <h2>Search/Browse Songs</h2>
     <form id="filterForm">
+    <h2>Search/Browse Songs</h2>
     <input type="radio" id="titleRadio" name="searchCategory" checked>
     <label for="titleRadio">Title:</label>
     <input type="text" id="titleInput" placeholder="Enter Title">
@@ -81,13 +80,14 @@
                 <th>Remove</th>
             </tr>
         </thead>
+      
         <tbody id="playlistTableBody"></tbody>
+        <div id="removedSnackbar">Song Removed to the Playlist </div>
     </table>
 </section>
     <div id="singleSongView">
         <h2>Single Song View</h2>
         <div class="chart" id="chart">
-        <button id="closeViewButton">Close View</button>
     </div>
  </body>
 </html>
