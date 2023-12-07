@@ -128,17 +128,22 @@ button[type="button"]:hover {
 }
 
 #playlistTable tbody tr:hover {
-  background-color: #b891ac;
+  background-color: #728dce;
   cursor: pointer;
   transition: background-color 0.3s;
 }
-
 #playlistTable tbody tr:hover td {
-  color: #007bff;
+  color: #007bff; 
+}
+#playlistTable tbody tr:nth-child(odd) {
+  background-color: #f2f2f2;
 }
 
+#playlistTable tbody tr:nth-child(even) {
+  background-color: #e0e0e0; 
+}
 /* Snackbar styling */
-#snackbar, #duplicateSnackbar {
+#snackbar, #duplicateSnackbar, #removedSnackbar {
   display: none;
   position: fixed;
   top: 50%;
@@ -156,6 +161,9 @@ button[type="button"]:hover {
 }
 #snackbar{
   background-color: rgb(0, 38, 255);
+ }
+ #removedSnackbar{
+  background-color: rgb(77, 11, 163);
  }
 /* Chart styling */
 #radarChartCanvas {
@@ -280,5 +288,22 @@ button[type="button"]:hover {
     margin: 0 0 6%; 
     float: none;
   }
+}
+#playlistSummary {
+  background-color: #93badf;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#playlistSummary p {
+  margin: 0;
+  font-size: 16px;
+}
+
+#playlistSummary span {
+  font-weight: bold;
+  color: #ff4800;
 }
 
