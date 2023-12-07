@@ -103,7 +103,7 @@ function showSingleSongView(song) {
     const hideElement = (element) => element.style.display = 'none';
     const showElement = (element) => element.style.display = 'block';
     const songTable = document.getElementById('songTable');
-    const mainDiv = document.querySelector('.main');
+    const mainDiv = document.querySelector('#filterForm');
     hideElement(songTable);
     hideElement(mainDiv);
     const singleSongView = document.getElementById('singleSongView');
@@ -135,9 +135,7 @@ function showSingleSongView(song) {
       <div class="radar-chart">
         <h3>Radar Chart</h3>
         <canvas id="radarChartCanvas"></canvas>
-      </div>
-      <button id="closeViewButton">Close View</button>
-    `;
+      </div> `;
     singleSongView.innerHTML = singleSongViewContent;
     const radarChartCanvas = document.getElementById('radarChartCanvas');
     const radarChart = new Chart(radarChartCanvas, {
@@ -159,15 +157,9 @@ function showSingleSongView(song) {
         }
       }
     });
-    const closeViewButton = document.getElementById('closeViewButton');
-    closeViewButton.addEventListener('click', () => {
-      showElement(songTable);
-      showElement(mainDiv);
-      hideElement(singleSongView);
-    });
     return radarChart;
   }
-  //function to populate the song in the table
+ //function to populate the song in the table
   function populateSongList() {
     songListBody.innerHTML = ""; 
     for (const song of songs) {
@@ -211,9 +203,19 @@ function updatePlaylistSummary() {
     const averagePopularity = totalPopularity / songsInPlaylist.length;
     averagePopularityElement.textContent = averagePopularity.toFixed(2);
 }
+ //event listener for the close view button 
+ const showElement = (element) => element.style.display = 'block';
+ const hideElement = (element) => element.style.display = 'none';
+ const mainDiv = document.querySelector('#filterForm');
+ const closeViewButton = document.getElementById('closeViewButton');
+ closeViewButton.addEventListener('click', () => {
+     showElement(songTable);
+     showElement(mainDiv);
+     hideElement(singleSongView);
+});
 // Add a function to toggle the visibility of the main div
 function toggleMainDivVisibility(displayStyle) {
-    const mainDiv = document.querySelector('.main');
+    const mainDiv = document.querySelector('#filterForm');
     mainDiv.style.display = displayStyle;
 }
 // Function to toggle the display of the playlist view and hide the song table
@@ -321,9 +323,21 @@ function removeFromPlaylist(song) {
         const playlistTableBody = document.getElementById("playlistTableBody");
         playlistTableBody.deleteRow(index);
         // If the playlist is empty, hide the playlist view
-        if (songsInPlaylist.length === 0) {
-            togglePlaylistView("none");
-        }
+       //if (songsInPlaylist.length === 0) {
+          // togglePlaylistView("display");
+       // }
+        // Display the snackbar for removing the song
+        const removedSnackbar = document.getElementById('removedSnackbar');
+        removedSnackbar.innerText = `"${song.title}" removed from the playlist.`;
+        removedSnackbar.style.display = 'block';
+        removedSnackbar.style.opacity = '1';
+        // Hide the snackbar after a few seconds
+        setTimeout(() => {
+            removedSnackbar.style.opacity = '0';
+            setTimeout(() => {
+                removedSnackbar.style.display = 'none';
+            }, 300);
+        }, 3000);
     }
 }
 // Function to clear the entire playlist
@@ -391,6 +405,7 @@ function displayFilteredSongs(filteredSongs) {
         // Show the single song view and hide both the playlist table and the song table
         showSingleSongView(song);
         togglePlaylistView("none");
+        toggleMainDivVisibility("none");
         document.getElementById('songTable').style.display = 'none';
     });
         // Set data attributes for artist and genre IDs
@@ -419,6 +434,13 @@ function clearFilters() {
     sortSongs(lastSortField);
     populateSongList();
 }
+ // on hover of .creditsbutton .cont for 5sec
+ const creditShow = document.querySelector(".creditsbutton");
+ const creditContent = document.querySelector(".cont");
+ creditShow.addEventListener("mouseover", () => {
+   creditContent.style.display = "block";
+   setTimeout(() => creditContent.style.display = "none", 5000);
+ });
 // Initial sort and population of the song list
 const songsStorage = localStorage.getItem('songsStorage');
 if (songsStorage) {
@@ -443,12 +465,3 @@ if (songsStorage) {
             console.error("Error fetching data from the API:", error);
         });
 }
- // on hover of .creditsbutton .cont for 5sec
- const creditShow = document.querySelector(".creditsbutton");
- const creditContent = document.querySelector(".cont");
- creditShow.addEventListener("mouseover", () => {
-   creditContent.style.display = "block";
-   setTimeout(() => creditContent.style.display = "none", 5000);
- });
- 
- 
