@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comp 3512 Assignment 2</title>
     <link rel="stylesheet" href="styles.css">
-    <script type="module" src="starting-files/songs.js"></script>
     <script src="./starting-files/artists.json"></script>
     <script src="./starting-files/genres.json"></script>
+    <script type="module" src="starting-files/songs.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -21,7 +21,7 @@
         <div id="duplicateSnackbar">Song is already in the playlist!</div>
         <div class="homenav" >
             <button class="playlistButton" id="playlistButton">Playlist</button>
-            <button id="closeViewButton">Close View</button>
+            <button class="closeViewButton" id="closeViewButton">Close View</button>
             <button class="creditsbutton">Credits</button>
         </div>
         <div class="cont">
@@ -56,7 +56,7 @@
                 <th id="yearHeader" data-sortby="year">Year</th>
                 <th id="genreHeader" data-sortby="genre">Genre</th>
                 <th id="popularityHeader" data-sortby="popularity">Popularity</th>
-                <th id="add">Add to Playlist</th>
+                <th id="addPlaylistHeader">Add to Playlist</th>
             </tr>
         </thead>
         <tbody id="songTableBody"></tbody>
@@ -80,7 +80,6 @@
                 <th>Remove</th>
             </tr>
         </thead>
-      
         <tbody id="playlistTableBody"></tbody>
         <div id="removedSnackbar">Song Removed to the Playlist </div>
     </table>
