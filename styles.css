@@ -7,17 +7,7 @@ body {
 table {
   border-collapse: collapse;
   margin-top: 20px;
-  width: 100%;
-}
-
-th, td {
-  border: 1px solid #ddd;
-  padding: 12px;
-  text-align: left;
-}
-
-th {
-  background-color: #f2f2f2;
+  
 }
 
 .homenav {
@@ -85,6 +75,7 @@ h2 {
 form {
   max-width: 600px;
   margin: 20px auto;
+  background-color: #8ca0cf;
 }
 
 /* Styling for form input fields */
@@ -195,56 +186,67 @@ button[type="button"]:hover {
   float: right;
   margin-top: -40rem;
 }
-#closeViewButton {
+.closeViewButton {
   padding: 8px 12px; /* Adjust padding for the button size */
   font-size: 14px; /* Adjust font size */
   border: 1px solid #007bff; /* Add a border */
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  display:none;
 }
 
-#closeViewButton:hover {
+.closeViewButton:hover {
   background-color: #0056b3;
   border-color: #0056b3; /* Change border color on hover */
 }
-
+/* Main Table Styling */
 #songTable {
-  width: 95%; 
-  margin: auto;
-  margin-top: 20px;
-  table-layout: fixed;
+  width: 95%;
+  margin: 20px auto; 
+  border-collapse: collapse;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  table-layout: fixed; 
+
 }
 
+/* Table Header Styling */
 #songTable th,
 #songTable td {
-  border: 1px solid #770505;
-  padding: 12px;
-  text-align: left;
+  border: 1px solid #ddd;
+  padding: 16px;
+  text-align: center;
+  position: relative;
+
 }
 
 #songTable th {
   background-color: #f2f2f2;
-  position: relative;
+  cursor: pointer;
+  user-select: none;
 }
 
 #songTable th.sorted::after {
   content: " ▲▼";
-  font-size: 12px;
+  font-size: 15px;
   margin-left: 5px;
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-80%);
 }
 
 #songTable th.sorted.asc::after {
   content: " ▲";
+  color: #d32f2f;
 }
 
 #songTable th.sorted.desc::after {
   content: " ▼";
+  color: #3c0cef;
 }
 
+/* Table Row Styling */
 #songTable tbody tr:nth-child(odd) {
   background-color: #f9f9f9; /* Background color for odd rows */
 }
@@ -306,4 +308,5 @@ button[type="button"]:hover {
   font-weight: bold;
   color: #ff4800;
 }
+
 
