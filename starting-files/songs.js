@@ -6,7 +6,7 @@ let lastSortField = "title";
 let lastSortAscending = false;
 const artists = JSON.parse(artistsData);
 const genres = JSON.parse(genresData);
-// Select elements
+// get element of artist,genre and songtable
 const artistSelect = document.getElementById("artistSelect");
 const genreSelect = document.getElementById("genreSelect");
 const songListBody = document.getElementById("songTableBody");
@@ -108,6 +108,11 @@ function showSingleSongView(song) {
     hideElement(mainDiv);
     const singleSongView = document.getElementById('singleSongView');
     showElement(singleSongView);
+    const playlistButton=document.getElementById('playlistButton');
+    const closeViewButton = document.getElementById('closeViewButton');
+    hideElement(playlistButton);
+    showElement(closeViewButton);
+    //chart details from the https://www.chartjs.org/
     const { details, analytics, title, artist, genre, year } = song;
     const{bpm,loudness,popularity}=details;
     const { danceability, energy, valence, speechiness, liveness, acousticness } = analytics;
@@ -176,15 +181,13 @@ function showSingleSongView(song) {
       row.insertCell(2).innerText = song.year;
       row.insertCell(3).innerText = findGenreName(song.genre.id);
       row.insertCell(4).innerText = song.details.popularity;
-  
-      row.setAttribute("data-artist-id", song.artist.id);
-      row.setAttribute("data-genre-id", song.genre.id);
-  
+      //add to playlist button and its event listener for it
       const addToPlaylistButton = document.createElement("button");
       addToPlaylistButton.innerText = "Add";
       addToPlaylistButton.addEventListener('click', (event) => {
-        event.stopPropagation();
-        addToPlaylist(song);
+       event.stopPropagation();
+       addToPlaylist(song);
+       hideElement(closeViewButton);
       });
       const addToPlaylistCell = row.insertCell(5);
       addToPlaylistCell.appendChild(addToPlaylistButton);
@@ -203,17 +206,22 @@ function updatePlaylistSummary() {
     const averagePopularity = totalPopularity / songsInPlaylist.length;
     averagePopularityElement.textContent = averagePopularity.toFixed(2);
 }
- //event listener for the close view button 
- const showElement = (element) => element.style.display = 'block';
+//event listener for the close view button 
+ const showElement = (element) => element.style.display = 'table'; 
  const hideElement = (element) => element.style.display = 'none';
- const mainDiv = document.querySelector('#filterForm');
+  const mainDiv = document.querySelector('#filterForm');
  const closeViewButton = document.getElementById('closeViewButton');
+ const playlistView = document.getElementById('playlistView');
+ const songTable = document.getElementById('songTable'); 
  closeViewButton.addEventListener('click', () => {
      showElement(songTable);
      showElement(mainDiv);
+     showElement(playlistButton);
+     hideElement(closeViewButton);
      hideElement(singleSongView);
-});
-// Add a function to toggle the visibility of the main div
+     hideElement(playlistView);
+ });
+ // Add a function to toggle the visibility of the main div
 function toggleMainDivVisibility(displayStyle) {
     const mainDiv = document.querySelector('#filterForm');
     mainDiv.style.display = displayStyle;
@@ -230,7 +238,9 @@ function togglePlaylistView(displayStyle) {
         toggleMainDivVisibility("block");
     }
     playlistViewSection.style.display = displayStyle;
-    songTable.style.display = displayStyle === "block" ? "none" : "block";
+    songTable.style.display = displayStyle === "block" ? "none" : "visible";
+    const closeViewButton = document.getElementById('closeViewButton');
+    showElement(closeViewButton);
 }
 // Function to add a song to the playlist
 function addToPlaylist(song) {
@@ -272,8 +282,6 @@ function addToPlaylist(song) {
             snackbar.style.display = 'none';
         }, 300);
     }, 3000); 
-    // For now, log to the console
-    console.log(`Added "${song.title}" to the playlist!`);
     // Show the playlist view only if it's currently hidden
     if (document.getElementById('playlistView').style.display === 'none') {
         // Show the playlist view and hide the song table
@@ -306,8 +314,8 @@ function addToPlaylist(song) {
     const removeButton = document.createElement("button");
     removeButton.innerText = "Remove";
     removeButton.addEventListener('click', (event) => {
-        event.stopPropagation(); // Prevent row click
-        removeFromPlaylist(song);
+    event.stopPropagation(); // Prevent row click
+    removeFromPlaylist(song);
     });
     const removeCell = playlistRow.insertCell(5);
     removeCell.appendChild(removeButton);
@@ -322,10 +330,6 @@ function removeFromPlaylist(song) {
         // Remove the row from the playlist table
         const playlistTableBody = document.getElementById("playlistTableBody");
         playlistTableBody.deleteRow(index);
-        // If the playlist is empty, hide the playlist view
-       //if (songsInPlaylist.length === 0) {
-          // togglePlaylistView("display");
-       // }
         // Display the snackbar for removing the song
         const removedSnackbar = document.getElementById('removedSnackbar');
         removedSnackbar.innerText = `"${song.title}" removed from the playlist.`;
@@ -351,8 +355,6 @@ function clearPlaylist() {
     while (playlistTableBody.firstChild) {
         playlistTableBody.removeChild(playlistTableBody.firstChild);
     }
-    // Hide the playlist view
-    togglePlaylistView("none");
 }
 // Add an event listener to the "Clear Playlist" button
 document.getElementById('clearPlaylistButton').addEventListener('click', clearPlaylist);
