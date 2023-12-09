@@ -39,21 +39,20 @@ table {
   background-color: rgb(89, 148, 216);
   padding: 10px;
 }
-.credits {
-  position: relative;
-}
-.credits:hover {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 2;
+.creditsbutton,
+.playlistViewButton {
+  display: inline-block;
+  margin: 10px;
 }
 .cont {
   display: none;
   background-color: rgb(146, 185, 204);
-  float: right; 
+  clear: both;
+  margin-top: 10px; 
+  padding: 10px; 
+  border-radius: 8px; 
+  width: fit-content; 
+  margin: auto; 
 }
 /* Styling for headers */
 h1, h2, h3, h4, h5, h6 {
@@ -62,45 +61,47 @@ h1, h2, h3, h4, h5, h6 {
   margin: 10px 0;
   padding: 0.1rem 0.6rem;
 }
-
 h1 {
   font-size: 2.5rem;
 }
-
 h2 {
   font-size: 2rem;
 }
-
-/* Styling for form */
+/* css for the form */
 form {
-  max-width: 600px;
-  margin: 20px auto;
-  background-color: #8ca0cf;
+  background-color: #4c74af;
+  padding: 10px; 
 }
-
 /* Styling for form input fields */
 input[type="text"], select, button {
-  width: 100%;
-  padding: 10px;
-  margin: 8px 0;
+  width: auto; 
+  padding: 8px; 
+  margin: 0 10px; 
   box-sizing: border-box;
 }
-
 /* Styling for form buttons */
-button[type="button"] {
-  background-color: #007bff;
-  color: #fff;
-  padding: 10px 16px;
-  border: none;
+button[type="button"], #filterButton, #clearButton {
+  background-color: #fff; /* Set a background color for buttons */
+  color: #4c74af; 
+  border: 2px solid #4c74af; /* Add a border */
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-button[type="button"]:hover {
-  background-color: #0056b3;
+button[type="button"]:hover, #filterButton:hover, #clearButton:hover {
+  background-color: #4c74af;
+  color: #fff; 
 }
 
+/* Set the form layout */
+#filterForm {
+  align-items: center;
+}
+label {
+  color: #fff; /* Set label text color */
+  margin-right: 10px; /* Add some margin to the right of labels */
+}
 /* Additional styling for playlist table */
 #playlistTable {
   width: 80%;
@@ -115,7 +116,7 @@ button[type="button"]:hover {
 }
 
 #playlistTable th {
-  background-color: #f2f2f2;
+  background-color:  #6098f1;
 }
 
 #playlistTable tbody tr:hover {
@@ -131,7 +132,7 @@ button[type="button"]:hover {
 }
 
 #playlistTable tbody tr:nth-child(even) {
-  background-color: #e0e0e0; 
+  background-color: #c8d4f7; 
 }
 /* Snackbar styling */
 #snackbar, #duplicateSnackbar, #removedSnackbar {
@@ -203,30 +204,26 @@ button[type="button"]:hover {
 /* Main Table Styling */
 #songTable {
   width: 95%;
-  margin: 20px auto; 
+  margin: 20px auto; /* Center the table horizontally */
   border-collapse: collapse;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-  table-layout: fixed; 
+  table-layout: fixed; /* Set the table layout to fixed */
 
 }
-
 /* Table Header Styling */
 #songTable th,
 #songTable td {
-  border: 1px solid #ddd;
+  border: 1px solid #200ae4;
   padding: 16px;
   text-align: center;
   position: relative;
 
 }
-
 #songTable th {
-  background-color: #f2f2f2;
+  background-color: #6098f1;
   cursor: pointer;
   user-select: none;
 }
-
 #songTable th.sorted::after {
   content: " ▲▼";
   font-size: 15px;
@@ -252,7 +249,7 @@ button[type="button"]:hover {
 }
 
 #songTable tbody tr:nth-child(even) {
-  background-color: #e0e0e0; /* Background color for even rows */
+  background-color: #c8d4f7; /* Background color for even rows */
 }
 
 #songTable tbody tr:hover {
@@ -270,7 +267,6 @@ button[type="button"]:hover {
   padding: 10px; /* Padding for spacing */
   text-align: center; /* Center align text */
 }
-
 #singleSongView h2 {
   margin: 5; 
 }
@@ -308,5 +304,13 @@ button[type="button"]:hover {
   font-weight: bold;
   color: #ff4800;
 }
-
-
+/* Song Table Container Styling */
+.song-table-container {
+  max-height: 880px; /* Set a maximum height for the container */
+  overflow-y: scroll; /* Make the container scrollable */
+  margin-top: 20px; 
+}
+#clearPlaylistButton {
+  display: block;
+  margin: auto;
+}
