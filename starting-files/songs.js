@@ -209,13 +209,14 @@ function updatePlaylistSummary() {
 //event listener for the close view button 
  const showElement = (element) => element.style.display = 'table'; 
  const hideElement = (element) => element.style.display = 'none';
-  const mainDiv = document.querySelector('#filterForm');
+ const mainDiv = document.querySelector('#filterForm');
+ mainDiv.removeAttribute('style');
  const closeViewButton = document.getElementById('closeViewButton');
  const playlistView = document.getElementById('playlistView');
  const songTable = document.getElementById('songTable'); 
  closeViewButton.addEventListener('click', () => {
+     mainDiv.style.display='block';
      showElement(songTable);
-     showElement(mainDiv);
      showElement(playlistButton);
      hideElement(closeViewButton);
      hideElement(singleSongView);
